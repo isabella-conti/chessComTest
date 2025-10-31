@@ -1,26 +1,40 @@
-<script setup>
-import ChessBoard from './components/ChessBoard/ChessBoard.vue'
-</script>
-
 <template>
-  <div id="app">
-    <h1>Chess.com Board</h1>
-    <ChessBoard />
+  <div class="container">
+    <ChessBoard @square-click="addSquare" />
+    <Sidebar :squares="selectedSquares" @clear="clearSquares" />
   </div>
 </template>
 
-<style scoped>
-#app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  background-color: #262421;
-  min-height: 100vh;
-  color: white;
+<script setup>
+import { ref } from 'vue'
+import ChessBoard from './components/ChessBoard/ChessBoard.vue'
+import Sidebar from './components/Sidebar/Sidebar.vue'
+
+const selectedSquares = ref([])
+
+const addSquare = (squareName) => {
+  selectedSquares.value.push(squareName)
 }
 
-h1 {
-  margin-bottom: 2rem;
+const clearSquares = () => {
+  selectedSquares.value = []
+}
+</script>
+
+<style scoped>
+.container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>
