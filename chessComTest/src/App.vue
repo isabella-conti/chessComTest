@@ -24,14 +24,14 @@ const clearSquares = () => {
 <style scoped>
 .container {
   display: flex;
-  gap: 20px;
+  gap: 1.25rem;
   justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
-  padding: 20px;
+  padding: 1.25rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 37.5rem) {
   .container {
     flex-direction: column;
     align-items: center;

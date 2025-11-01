@@ -4,16 +4,21 @@
       v-for="i in 64"
       :key="i"
       class="square"
-      :class="{ dark: (Math.floor((i - 1) / 8) + ((i - 1) % 8)) % 2 === 1 }"
+      :class="{
+        dark: (Math.floor((i - 1) / 8) + ((i - 1) % 8)) % 2 === 1,
+        highlight: i - 1 === highlightedSquare
+      }"
       @click="handleSquareClick(i - 1)"
     ></div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { defineEmits } from 'vue'
 
-const emit = defineEmits(['square-click'])
+const emit = defineEmits(['square-click', 'square-highlight'])
+const highlightedSquare = ref(null)
 
 const nameSquare = (index) => {
   const col = String.fromCharCode(65 + (index % 8))
@@ -22,8 +27,11 @@ const nameSquare = (index) => {
 }
 
 const handleSquareClick = (index) => {
+  highlightedSquare.value = index
   const squareName = nameSquare(index)
+  console.log(`Square clicked: ${squareName}`)
   emit('square-click', squareName)
+  emit('square-highlight', squareName)
 }
 </script>
 
@@ -31,10 +39,10 @@ const handleSquareClick = (index) => {
 .chessboard {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  width: clamp(250px, 60vw, 500px);
+  width: clamp(15.625rem, 60vw, 31.25rem);
   aspect-ratio: 1 / 1;
-  border: 4px solid #3c3c3c;
-  border-radius: 6px;
+  border: 0.25rem solid #3c3c3c;
+  border-radius: 0.375rem;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -43,6 +51,7 @@ const handleSquareClick = (index) => {
   width: 100%;
   aspect-ratio: 1 / 1;
   cursor: pointer;
+  transition: box-shadow 0.2s ease, outline 0.2s ease;
 }
 
 .square.dark {
@@ -51,5 +60,11 @@ const handleSquareClick = (index) => {
 
 .square:not(.dark) {
   background-color: #ececd4;
+}
+
+.square.highlight {
+  outline: 0.1875rem solid #63f9bb;
+  box-shadow: inset 0 0 0.625rem rgba(0, 255, 85, 0.7);
+  z-index: 1;
 }
 </style>
