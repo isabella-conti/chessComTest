@@ -1,5 +1,5 @@
 <template>
-  <div class="chessboard">
+  <div class="chessboard" ref="boardRef">
     <div
       v-for="i in 64"
       :key="i"
@@ -14,11 +14,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { defineEmits } from 'vue'
 
 const emit = defineEmits(['square-click', 'square-highlight'])
 const highlightedSquare = ref(null)
+const boardRef = ref(null)
+let ro = null
 
 const nameSquare = (index) => {
   const col = String.fromCharCode(65 + (index % 8))
@@ -33,6 +35,20 @@ const handleSquareClick = (index) => {
   emit('square-click', squareName)
   emit('square-highlight', squareName)
 }
+
+onMounted(() => {
+  const rootFont = () => parseFloat(getComputedStyle(document.documentElement).fontSize) || 16
+  ro = new ResizeObserver(entries => {
+    const w = entries[0].contentRect.width
+    const remValue = w / rootFont()
+    document.documentElement.style.setProperty('--board-size-rem', `${remValue}rem`)
+  })
+  if (boardRef.value) ro.observe(boardRef.value)
+})
+
+onBeforeUnmount(() => {
+  if (ro && boardRef.value) ro.unobserve(boardRef.value)
+})
 </script>
 
 <style scoped>
