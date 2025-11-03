@@ -82,9 +82,9 @@ npm run dev
 
 ### Responsiveness
 - The main layout (`App.vue`) uses a Flexbox-based structure.
-- A breakpoint (`@media (max-width: 48rem)`) stacks the board and sidebar vertically.
+- A breakpoint (`@media (max-width: 52rem)`) stacks the board and sidebar vertically.
 - `sidebarPosition` dynamically switches based on:
-  - `matchMedia('(max-width: 768px)')`
+  - `matchMedia('(max-width: 52rem)')`
   - `isIPadLike()` heuristic for tablet detection.
 
 ### Events and State Management

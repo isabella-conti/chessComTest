@@ -76,7 +76,7 @@ watch(
   border-radius: 0.25rem;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 52rem) {
   .sidebar--right {
     width: clamp(5.5rem, calc(var(--board-size-rem, 12rem) * 0.28), 10rem);
     height: calc(var(--board-size-rem, 12rem));

@@ -55,7 +55,7 @@ onBeforeUnmount(() => {
   padding: 1.25rem;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 52rem) {
   .container {
     flex-direction: column;
     align-items: center;
