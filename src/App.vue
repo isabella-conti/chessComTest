@@ -29,7 +29,7 @@ const isIPadLike = () =>
   /iPad|iPhone|iPod/.test(navigator.userAgent)
 
 onMounted(() => {
-  mq = window.matchMedia('(max-width: 768px)')
+  mq = window.matchMedia('(max-width: 52rem)')
   update = () => {
     sidebarPosition.value = (mq.matches || isIPadLike()) ? 'bottom' : 'right'
   }
