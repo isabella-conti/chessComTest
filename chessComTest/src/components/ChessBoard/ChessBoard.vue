@@ -9,7 +9,10 @@
         highlight: i - 1 === highlightedSquare
       }"
       @click="handleSquareClick(i - 1)"
-    ></div>
+    >
+      <span v-if="(i - 1) % 8 === 0" class="coord rank">{{ rankNumber(i - 1) }}</span>
+      <span v-if="rankNumber(i - 1) === 1" class="coord file">{{ fileLetter(i - 1) }}</span>
+    </div>
   </div>
 </template>
 
@@ -27,6 +30,9 @@ const nameSquare = (index) => {
   const row = 8 - Math.floor(index / 8)
   return `${col}${row}`
 }
+
+const fileLetter = (index) => String.fromCharCode(97 + (index % 8)) // a-h
+const rankNumber = (index) => 8 - Math.floor(index / 8) // 1-8
 
 const handleSquareClick = (index) => {
   highlightedSquare.value = index
@@ -61,13 +67,17 @@ onBeforeUnmount(() => {
   border-radius: 0.375rem;
   overflow: hidden;
   flex-shrink: 0;
+  margin: 0 auto;
 }
+
 
 .square {
   width: 100%;
   aspect-ratio: 1 / 1;
   cursor: pointer;
   transition: box-shadow 0.2s ease, outline 0.2s ease;
+  position: relative;
+  user-select: none;
 }
 
 .square.dark {
@@ -83,4 +93,33 @@ onBeforeUnmount(() => {
   box-shadow: inset 0 0 0.625rem rgba(0, 255, 85, 0.7);
   z-index: 1;
 }
+
+.coord {
+  position: absolute;
+  font-size: 0.625rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.coord.rank {
+  left: 0.25rem;
+  top: 20%;
+  transform: translateY(-50%);
+}
+
+.coord.file {
+  right: 0.25rem;
+  bottom: 0.125rem;
+}
+
+.square.dark .coord {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 0.0625rem rgba(0, 0, 0, 0.45);
+}
+
+.square:not(.dark) .coord {
+  color: rgba(0, 0, 0, 0.75);
+  text-shadow: 0 0.0625rem rgba(255, 255, 255, 0.6);
+}
+
 </style>
