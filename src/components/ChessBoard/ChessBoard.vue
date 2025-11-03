@@ -46,9 +46,12 @@ const uiOffsetRem = 6
 
 const adjustByViewport = () => {
   if (!boardRef.value) return
-  const availHeight = (window.visualViewport && window.visualViewport.height)
-    ? window.visualViewport.height
-    : window.innerHeight
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+  const availHeight = isSafari
+    ? window.innerHeight
+    : (window.visualViewport?.height ?? window.innerHeight)
+
+
   const offsetPx = uiOffsetRem * rootFont()
   const maxSide = Math.max(0, availHeight - offsetPx)
   boardRef.value.style.maxWidth = `${maxSide}px`
@@ -81,6 +84,14 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+html,
+body {
+  height: 100%;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-sizing: border-box;
+}
+
 .chessboard {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
@@ -91,7 +102,7 @@ onBeforeUnmount(() => {
   border-radius: 0.375rem;
   overflow: hidden;
   flex-shrink: 0;
-  margin: 0 auto;
+  margin: env(safe-area-inset-top) auto env(safe-area-inset-bottom);
 }
 
 .square {
