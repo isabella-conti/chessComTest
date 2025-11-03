@@ -53,7 +53,7 @@ watch(
 
 .sidebar--bottom {
   width: 100%;
-  height: clamp(3rem, calc(var(--board-size-rem, 16rem) * 0.12), 8rem);
+  height: clamp(5rem, calc(var(--board-size-rem, 16rem) * 0.12), 8rem);
 }
 
 .sidebar ul {
@@ -76,7 +76,7 @@ watch(
   border-radius: 0.25rem;
 }
 
-@media (max-width: 40rem) {
+@media (max-width: 48rem) {
   .sidebar--right {
     width: clamp(5.5rem, calc(var(--board-size-rem, 12rem) * 0.28), 10rem);
     height: calc(var(--board-size-rem, 12rem));
@@ -85,7 +85,7 @@ watch(
   }
 
   .sidebar--bottom {
-    height: clamp(2.5rem, calc(var(--board-size-rem, 12rem) * 0.12), 6rem);
+    height: clamp(5rem, calc(var(--board-size-rem, 12rem) * 0.12), 6rem);
   }
 
   .sidebar h3 {
@@ -111,7 +111,7 @@ watch(
   }
 
   .sidebar--bottom {
-    height: clamp(2rem, calc(var(--board-size-rem, 10rem) * 0.12), 5.5rem);
+    height: clamp(5rem, calc(var(--board-size-rem, 10rem) * 0.12), 5.5rem);
   }
 
   .sidebar h3 {
