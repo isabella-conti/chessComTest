@@ -122,7 +122,7 @@ body {
 }
 
 .chessboard.safari-padding {
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.30rem);
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.40rem);
 }
 
 .square {
