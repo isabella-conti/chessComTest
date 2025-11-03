@@ -31,13 +31,12 @@ const nameSquare = (index) => {
   return `${col}${row}`
 }
 
-const fileLetter = (index) => String.fromCharCode(97 + (index % 8)) // a-h
-const rankNumber = (index) => 8 - Math.floor(index / 8) // 1-8
+const fileLetter = (index) => String.fromCharCode(97 + (index % 8))
+const rankNumber = (index) => 8 - Math.floor(index / 8)
 
 const handleSquareClick = (index) => {
   highlightedSquare.value = index
   const squareName = nameSquare(index)
-  console.log(`Square clicked: ${squareName}`)
   emit('square-click', squareName)
   emit('square-highlight', squareName)
 }
