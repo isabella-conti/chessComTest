@@ -18,7 +18,6 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { defineEmits } from 'vue'
 
 const emit = defineEmits(['square-click', 'square-highlight'])
 const highlightedSquare = ref(null)
@@ -41,18 +40,43 @@ const handleSquareClick = (index) => {
   emit('square-highlight', squareName)
 }
 
+const rootFont = () => parseFloat(getComputedStyle(document.documentElement).fontSize) || 16
+
+const uiOffsetRem = 6
+
+const adjustByViewport = () => {
+  if (!boardRef.value) return
+  const availHeight = (window.visualViewport && window.visualViewport.height)
+    ? window.visualViewport.height
+    : window.innerHeight
+  const offsetPx = uiOffsetRem * rootFont()
+  const maxSide = Math.max(0, availHeight - offsetPx)
+  boardRef.value.style.maxWidth = `${maxSide}px`
+}
+
 onMounted(() => {
-  const rootFont = () => parseFloat(getComputedStyle(document.documentElement).fontSize) || 16
   ro = new ResizeObserver(entries => {
     const w = entries[0].contentRect.width
     const remValue = w / rootFont()
     document.documentElement.style.setProperty('--board-size-rem', `${remValue}rem`)
   })
   if (boardRef.value) ro.observe(boardRef.value)
+
+  adjustByViewport()
+  if (window.visualViewport && window.visualViewport.addEventListener) {
+    window.visualViewport.addEventListener('resize', adjustByViewport, { passive: true })
+  }
+  window.addEventListener('resize', adjustByViewport, { passive: true })
+  window.addEventListener('orientationchange', adjustByViewport, { passive: true })
 })
 
 onBeforeUnmount(() => {
   if (ro && boardRef.value) ro.unobserve(boardRef.value)
+  if (window.visualViewport && window.visualViewport.removeEventListener) {
+    window.visualViewport.removeEventListener('resize', adjustByViewport)
+  }
+  window.removeEventListener('resize', adjustByViewport)
+  window.removeEventListener('orientationchange', adjustByViewport)
 })
 </script>
 
@@ -61,6 +85,7 @@ onBeforeUnmount(() => {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   width: clamp(15.625rem, 60vw, 31.25rem);
+  max-width: 100%;
   aspect-ratio: 1 / 1;
   border: 0.25rem solid #3c3c3c;
   border-radius: 0.375rem;
@@ -68,7 +93,6 @@ onBeforeUnmount(() => {
   flex-shrink: 0;
   margin: 0 auto;
 }
-
 
 .square {
   width: 100%;
@@ -120,5 +144,4 @@ onBeforeUnmount(() => {
   color: rgba(0, 0, 0, 0.75);
   text-shadow: 0 0.0625rem rgba(255, 255, 255, 0.6);
 }
-
 </style>
