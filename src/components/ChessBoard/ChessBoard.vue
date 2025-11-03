@@ -57,6 +57,13 @@ const adjustByViewport = () => {
   boardRef.value.style.maxWidth = `${maxSide}px`
 }
 
+const isIOSSafari = () => {
+  const ua = navigator.userAgent || ''
+  const isiOS = /iP(ad|hone|od)/.test(navigator.platform) || (ua.includes('Mac') && 'ontouchend' in document)
+  const isSafari = /Safari/.test(ua) && !/Chrome|CriOS|Chromium|FxiOS|OPiOS|EdgiOS/.test(ua)
+  return isiOS && isSafari
+}
+
 onMounted(() => {
   ro = new ResizeObserver(entries => {
     const w = entries[0].contentRect.width
@@ -66,6 +73,10 @@ onMounted(() => {
   if (boardRef.value) ro.observe(boardRef.value)
 
   adjustByViewport()
+  if (boardRef.value && isIOSSafari()) {
+    boardRef.value.classList.add('safari-padding')
+  }
+
   if (window.visualViewport && window.visualViewport.addEventListener) {
     window.visualViewport.addEventListener('resize', adjustByViewport, { passive: true })
   }
@@ -75,6 +86,11 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   if (ro && boardRef.value) ro.unobserve(boardRef.value)
+
+  if (boardRef.value && isIOSSafari()) {
+    boardRef.value.classList.remove('safari-padding')
+  }
+
   if (window.visualViewport && window.visualViewport.removeEventListener) {
     window.visualViewport.removeEventListener('resize', adjustByViewport)
   }
@@ -103,6 +119,10 @@ body {
   overflow: hidden;
   flex-shrink: 0;
   margin: env(safe-area-inset-top) auto env(safe-area-inset-bottom);
+}
+
+.chessboard.safari-padding {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.25rem);
 }
 
 .square {
