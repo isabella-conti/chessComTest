@@ -46,13 +46,13 @@ const uiOffsetRem = 6
 
 const adjustByViewport = () => {
   if (!boardRef.value) return
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-  const availHeight = isSafari
-    ? window.innerHeight
-    : (window.visualViewport?.height ?? window.innerHeight)
 
+  const availHeight = window.visualViewport?.height ?? window.innerHeight
 
-  const offsetPx = uiOffsetRem * rootFont()
+  const safeBottomCss = getComputedStyle(document.documentElement).getPropertyValue('--safe-area-inset-bottom')
+  const safeBottomPx = parseFloat(safeBottomCss) || 0
+
+  const offsetPx = uiOffsetRem * rootFont() + safeBottomPx
   const maxSide = Math.max(0, availHeight - offsetPx)
   boardRef.value.style.maxWidth = `${maxSide}px`
 }
