@@ -47,13 +47,16 @@ watch(
 }
 
 .sidebar--right {
-  width: clamp(6rem, calc(var(--board-size-rem, 16rem) * 0.28), 14rem);
-  height: calc(var(--board-size-rem, 16rem));
+  width: 14rem;
+  height: min(85vw, 85vh - 4rem, 40rem);
+  margin: 0;
 }
 
 .sidebar--bottom {
   width: 100%;
-  height: clamp(5rem, calc(var(--board-size-rem, 16rem) * 0.12), 8rem);
+  max-width: min(90vw, 28rem);
+  height: 8rem;
+  margin: 0 auto;
 }
 
 .sidebar ul {
@@ -65,6 +68,7 @@ watch(
 .sidebar li {
   padding: 0.375rem 0;
   border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.06);
+  font-size: 0.875rem;
 }
 
 .sidebar::-webkit-scrollbar {
@@ -76,46 +80,13 @@ watch(
   border-radius: 0.25rem;
 }
 
-@media (max-width: 52rem) {
+@media (max-width: 56rem) {
   .sidebar--right {
-    width: clamp(5.5rem, calc(var(--board-size-rem, 12rem) * 0.28), 10rem);
-    height: calc(var(--board-size-rem, 12rem));
-    padding: 0.5rem;
-    font-size: 0.875rem;
-  }
-
-  .sidebar--bottom {
-    height: clamp(5rem, calc(var(--board-size-rem, 12rem) * 0.12), 6rem);
-  }
-
-  .sidebar h3 {
-    font-size: 0.95rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .sidebar li {
-    padding: 0.25rem 0;
-    border-bottom-width: 0.04rem;
-  }
-
-  .sidebar::-webkit-scrollbar {
-    width: 0.35rem;
+    width: 100%;
+    max-width: min(90vw, 28rem);
+    height: 8rem;
+    margin: 0 auto;
   }
 }
 
-@media (max-width: 26.25rem) {
-  .sidebar--right {
-    width: clamp(5rem, calc(var(--board-size-rem, 10rem) * 0.28), 8rem);
-    height: calc(var(--board-size-rem, 10rem));
-    font-size: 0.8rem;
-  }
-
-  .sidebar--bottom {
-    height: clamp(5rem, calc(var(--board-size-rem, 10rem) * 0.12), 5.5rem);
-  }
-
-  .sidebar h3 {
-    font-size: 0.9rem;
-  }
-}
 </style>
