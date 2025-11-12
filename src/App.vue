@@ -23,17 +23,13 @@ const clearSquares = () => {
   selectedSquares.value = []
 }
 
-const isIPadLike = () =>
-  navigator.platform === 'iPad' ||
-  (navigator.userAgent.includes('Mac') && 'ontouchend' in document) ||
-  /iPad|iPhone|iPod/.test(navigator.userAgent)
 
 onMounted(() => {
-  mq = window.matchMedia('(max-width: 52rem)')
-  update = () => {
-    sidebarPosition.value = (mq.matches || isIPadLike()) ? 'bottom' : 'right'
+  mq = window.matchMedia('(max-width: 56rem)')
+  update = (e) => {
+    sidebarPosition.value = e.matches ? 'bottom' : 'right'
   }
-  update()
+  update(mq)
   if (mq.addEventListener) mq.addEventListener('change', update)
   else mq.addListener(update)
 })
@@ -46,19 +42,24 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+
 .container {
   display: flex;
   gap: 1.25rem;
-  justify-content: center;
   align-items: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
-  padding: 1.25rem;
+  padding: 5rem 1.25rem 1.25rem;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-@media (max-width: 52rem) {
+@media (max-width: 56rem) {
   .container {
     flex-direction: column;
     align-items: center;
+    padding: 2rem 1.25rem 1.25rem;
   }
 }
+
 </style>
